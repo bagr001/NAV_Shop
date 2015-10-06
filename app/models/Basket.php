@@ -48,7 +48,7 @@ class Basket extends \Nette\Object {
 	 */
 	public function getQuantity($key)
 	{
-		return (int)$this->session[$key][self::ORDER_QUANTITY_FIELD];
+		return (int) $this->session[$key][self::ORDER_QUANTITY_FIELD];
 	}
 
 	/**

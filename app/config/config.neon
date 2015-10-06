@@ -57,6 +57,7 @@ services:
 	router: App\RouterFactory::createRouter
 	session: Nette\Http\Session
 	db: @Nette\Database\Context
+	itemRepository: App\Model\ItemRepository
 
 	soapClentCusomer: App\Model\NAV\NAV_SoapClient(%nav_ws_customer_url%, %nav_ws_options%)
 	soapClentItemCard: App\Model\NAV\NAV_SoapClient(%nav_ws_item_card_url%, %nav_ws_options%)
@@ -64,7 +65,7 @@ services:
 	soapClentSalesOrder: App\Model\NAV\NAV_SoapClient(%nav_ws_sales_order_url%, %nav_ws_options%)
 
 	customerService: App\Model\NAV\Customer\CustomerService(@soapClentCusomer, %nav_ws_customer_name%)
-	itemCardService: App\Model\NAV\ItemCard\ItemCardService(@soapClentItemCard, %nav_ws_item_card_name%)
+	itemCardService: App\Model\NAV\ItemCard\ItemCardService(@soapClentItemCard, %nav_ws_item_card_name%, @itemRepository)
 	countriesService: App\Model\NAV\Countries\CountriesService(@soapClentCountries, %nav_ws_countries_name%)
 	salesOrderService: App\Model\NAV\SalesOrder\SalesOrderService(@soapClentSalesOrder, %nav_ws_sales_order_name%)
 #	customerService: App\Model\NAV\NAV_Service(@soapClentCusomer, %nav_ws_customer_name%)

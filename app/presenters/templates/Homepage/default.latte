@@ -17,7 +17,7 @@
 					</div>
 					<div class="panel-body">
 						<a href="#">
-							<img src="http://placehold.it/240x150">
+							<img src="{isset($item->image_small) ? $basePath . '/images/items/' . $item->image_small : 'http://placehold.it/240x150'}" title="{$item->Description} (No. {$item->No})">
 						</a>
 						<div class="clearfix visible-lg"></div>
 						<h4>
