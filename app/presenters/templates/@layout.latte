@@ -1,0 +1,108 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+*}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<title>{ifset title}{include title|striptags} | {/ifset}CRONUS International Ltd</title>
+
+		<link rel="stylesheet" href="{$basePath}/css/bootstrap.css">
+		<link rel="stylesheet" href="{$basePath}/css/jumbotron-narrow.css">
+		<link rel="stylesheet" href="{$basePath}/css/style.css">
+		<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+		<meta name="viewport" content="width=device-width">
+		{block head}{/block}
+	</head>
+
+	<body>
+
+		{block scripts}
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="{$basePath}/js/bootstrap.js"></script>
+		<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+		<script src="{$basePath}/js/nette.ajax.js"></script>
+		<!--<script src="{$basePath}/js/live-form-validation.js"></script>-->
+		<script src="{$basePath}/js/main.js"></script>
+		{/block}
+
+		<div class="container">
+			<div class="header clearfix">
+				<nav>
+					<ul class="nav nav-pills pull-right">
+						<li role="presentation" n:class="$presenter->isLinkCurrent('Homepage:*') ? active">
+							<a n:href="Homepage:" title="Homepage">
+								<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+								&nbsp;Home
+							</a>
+						</li>
+						<!--<li role="presentation" n:class="$presenter->isLinkCurrent('Contact:*') ? active"><a n:href="Contact:">Contact</a></li>-->
+						<li role="presentation" n:class="$presenter->isLinkCurrent('Basket:*') ? active">
+							<a n:href="Basket:" title="Shopping cart" n:snippet="shoppingCart">
+								<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+								&nbsp;Cart
+								<span n:if="$shoppingCartItems" class="badge">{$shoppingCartItems}</span>
+							</a>
+						</li>
+						{if $user->loggedIn}
+							<li role="presentation" n:class="dropdown, $presenter->isLinkCurrent('Account:*') ? active">
+								<a href="#" title="Sign in" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+									&nbsp;{$user->identity->data['email']}
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu">
+									<li>
+										<a n:href="Account:orders">
+											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+											&nbsp;Orders
+										</a>
+									</li>
+									<li>
+										<a n:href="Account:default">
+											<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+											&nbsp;Settings
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a n:href="Sign:out">
+											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+											&nbsp;Sign out
+										</a>
+									</li>
+								</ul>
+							</li>
+						{else}
+							<li role="presentation" n:class="$presenter->isLinkCurrent('Sign:in') ? active">
+								<a n:href="Sign:in" title="Sign in" role="presentation" >
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+									&nbsp;Sign in
+								</a>
+							</li>
+						{/if}
+
+
+					</ul>
+				</nav>
+				<a n:href="Homepage:" title="CRONUS International">
+					<h3 class="text-muted">CRONUS International</h3>
+				</a>
+			</div>
+
+			{snippet flashMsg}
+				<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+			{/snippet}
+
+			{include content}
+
+			<footer class="footer">
+				<p>Vojtěch Lank {date('Y')} @ Karelia-ammattikorkeakoulu</p>
+			</footer>
+
+		</div>
+	</body>
+</html>

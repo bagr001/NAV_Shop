@@ -1,0 +1,102 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# http://nette.org/security-warning
+#
+parameters:
+	p: %
+	wsdl_temp_dir: %wwwDir%\temp
+	wsdl_temp_url: "http://localhost/NAV_Shop/www/temp/"
+
+	#nav_ws_customer_url: "http://ril-sql.rilling.local:7047/DynamicsNAV71/WS/Yritys4_Cronus/Page/Customer"
+	nav_ws_customer_url: "http://localhost:7047/DynamicsNAV70/WS/CRONUS%p%20International%p%20Ltd/Page/Customer"
+	nav_ws_customer_name: 'Customer'
+
+	#nav_ws_item_card_url: "http://ril-sql.rilling.local:7047/DynamicsNAV71/WS/Yritys4_Cronus/Page/Integration_Item_Card"
+	nav_ws_item_card_url: "http://localhost:7047/DynamicsNAV70/WS/CRONUS%p%20International%p%20Ltd/Page/Integration_Item_Card"
+	nav_ws_item_card_name: 'Integration_Item_Card'
+
+	nav_ws_countries_url: "http://localhost:7047/DynamicsNAV70/WS/CRONUS%p%20International%p%20Ltd/Page/Countries"
+	nav_ws_countries_name: 'Countries'
+
+	nav_ws_sales_order_url: "http://localhost:7047/DynamicsNAV70/WS/CRONUS%p%20International%p%20Ltd/Page/SalesOrders"
+	nav_ws_sales_order_name: 'SalesOrders'
+
+	nav_ws_options:
+		login:
+		password:
+		wdsl_local_copy:
+		cache_dir: %wsdl_temp_dir%
+		cache_url: %wsdl_temp_url%
+
+database:
+	dsn:
+	user:
+	password:
+	debugger: true
+	explain: true
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+services:
+
+	# ----- Services ----- #
+
+	- App\Model\UserManager
+	router: App\RouterFactory::createRouter
+	session: Nette\Http\Session
+	db: @Nette\Database\Context
+
+	soapClentCusomer: App\Model\NAV\NAV_SoapClient(%nav_ws_customer_url%, %nav_ws_options%)
+	soapClentItemCard: App\Model\NAV\NAV_SoapClient(%nav_ws_item_card_url%, %nav_ws_options%)
+	soapClentCountries: App\Model\NAV\NAV_SoapClient(%nav_ws_countries_url%, %nav_ws_options%)
+	soapClentSalesOrder: App\Model\NAV\NAV_SoapClient(%nav_ws_sales_order_url%, %nav_ws_options%)
+
+	customerService: App\Model\NAV\Customer\CustomerService(@soapClentCusomer, %nav_ws_customer_name%)
+	itemCardService: App\Model\NAV\ItemCard\ItemCardService(@soapClentItemCard, %nav_ws_item_card_name%)
+	countriesService: App\Model\NAV\Countries\CountriesService(@soapClentCountries, %nav_ws_countries_name%)
+	salesOrderService: App\Model\NAV\SalesOrder\SalesOrderService(@soapClentSalesOrder, %nav_ws_sales_order_name%)
+#	customerService: App\Model\NAV\NAV_Service(@soapClentCusomer, %nav_ws_customer_name%)
+#	itemCardService: App\Model\NAV\NAV_Service(@soapClentItemCard, %nav_ws_item_card_name%)
+	- App\Model\CurrencyConvertor
+
+	basket: App\Model\Basket(@session::getSection('basket'), @itemCardService)
+
+	# ----- Factories ----- #
+
+	basketControl:
+		implement: App\Controls\IBasketControlFactory
+		class: App\Controls\BasketControl(@basket)
+
+	registerFormControl:
+		implement: App\Controls\Forms\IRegisterFormControlFactory
+		class: App\Controls\Forms\RegisterFormControl
+
+	signFormControl:
+		implement: App\Controls\Forms\ISignFormControlFactory
+		class: App\Controls\Forms\SignFormControl
+
+	signRegisterControl:
+		implement: App\Controls\ISignRegisterControlFactory
+		class: App\Controls\SignRegisterControl
+
+	customerFormControl:
+		implement: App\Controls\Forms\ICustomerFormControlFactory
+		class: App\Controls\Forms\CustomerFormControl
+
+	orderFormControl:
+		implement: App\Controls\Forms\IOrderFormControlFactory
+		class: App\Controls\Forms\OrderFormControl
+
+	# ----- Presenters ----- #

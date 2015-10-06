@@ -1,0 +1,41 @@
+
+{block content}
+
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+			&nbsp;Orders
+		</h3>
+	</div>
+	<div class="panel-body center">
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">No.</th>
+					<th class="text-center">Order Date</th>
+					<th class="text-center">Status</th>
+					<th class="text-center">Total Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$orders as $order">
+					<td>
+						<a n:href="Account:orderDetail, no => $order->No">{$order->No}</a>
+					</td>
+					<td>{$order->Order_Date|date:'j. n. Y'}</td>
+					<td>{$order->Status}</td>
+					<td class="text-right">
+						{var $total = 0;}
+						{var $lines = $order->SalesLines->Sales_Order_Line}
+						{foreach is_array($lines) ? $lines : [$lines] as $item}
+							{?$total += $item->Line_Amount;}
+						{/foreach}
+						€&nbsp;{$total|number:2:',':' '}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

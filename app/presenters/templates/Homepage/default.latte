@@ -1,0 +1,34 @@
+
+{block content}
+
+{ifset $items}
+	{foreach $items as $item}
+		{if $iterator->counter%3 == 1}
+			<div class="row marketing">
+			{/if}
+			<div class="col-lg-4">
+				<div class="panel panel-primary col-lg-12">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<a href="#"><strong>{$item->Description|truncate:30}</strong></a>
+							<br />
+							<small class="text-muted">(No. {$item->No})</small>
+						</h3>
+					</div>
+					<div class="panel-body">
+						<a href="#">
+							<img src="http://placehold.it/240x150">
+						</a>
+						<div class="clearfix visible-lg"></div>
+						<h4>
+							<strong>€&nbsp;{$item->Unit_Price|number:2:',':' '}</strong>
+							<span class="pull-right">{control basket:buy, $item->No}</span>
+						</h4>
+					</div>
+				</div>
+			</div>
+			{if $iterator->counter%3 == 0 || $iterator->last}
+			</div>
+		{/if}
+	{/foreach}
+{/ifset}

@@ -1,0 +1,9 @@
+#Options -Indexes
+
+RewriteEngine On
+
+# redirect requests to folder www/
+RewriteCond %{HTTP_HOST} $
+RewriteRule ^$ www/[L]
+RewriteCond %{HTTP_HOST} $
+RewriteRule (.*) www/$1 [L]

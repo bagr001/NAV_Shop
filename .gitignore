@@ -1,0 +1,27 @@
+# Created by https://www.gitignore.io/api/netbeans,nette
+
+### NetBeans ###
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+
+
+### Nette ###
+# Nette - http://nette.org
+# Ignore /log and /temp directories content but commit .htaccess settings
+/log/*
+!/log/.htaccess
+/temp/*
+!/temp/.htaccess
+/www/temp/*
+/app/config/config.local.neon
+WSDL/
+
+### MySQL Workbench ###
+/*.mwb*
+/*.sql
