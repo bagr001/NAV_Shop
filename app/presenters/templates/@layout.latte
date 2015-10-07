@@ -41,7 +41,7 @@
 						</li>
 						<!--<li role="presentation" n:class="$presenter->isLinkCurrent('Contact:*') ? active"><a n:href="Contact:">Contact</a></li>-->
 						<li role="presentation" n:class="$presenter->isLinkCurrent('Basket:*') ? active">
-							<a n:href="Basket:" title="Shopping cart" n:snippet="shoppingCart">
+							<a n:href="Basket:cart" title="Shopping cart" n:snippet="shoppingCart">
 								<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 								&nbsp;Cart
 								<span n:if="$shoppingCartItems" class="badge">{$shoppingCartItems}</span>
@@ -49,27 +49,27 @@
 						</li>
 						{if $user->loggedIn}
 							<li role="presentation" n:class="dropdown, $presenter->isLinkCurrent('Account:*') ? active">
-								<a href="#" title="Sign in" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+								<a href="#" title="Account" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
 									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 									&nbsp;{$user->identity->data['email']}
 									<span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu" role="menu">
 									<li>
-										<a n:href="Account:orders">
+										<a n:href="Account:orders" title="Orders">
 											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 											&nbsp;Orders
 										</a>
 									</li>
 									<li>
-										<a n:href="Account:default">
+										<a n:href="Account:default" title="Settings">
 											<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 											&nbsp;Settings
 										</a>
 									</li>
 									<li class="divider"></li>
 									<li>
-										<a n:href="Sign:out">
+										<a n:href="Sign:out" title="Sign out">
 											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 											&nbsp;Sign out
 										</a>
@@ -89,7 +89,8 @@
 					</ul>
 				</nav>
 				<a n:href="Homepage:" title="CRONUS International">
-					<h3 class="text-muted">CRONUS International</h3>
+					<!--<h3 class="text-muted">CRONUS International</h3>-->
+					<img height="40" src="{$basePath}/images/cronus.png" title="CRONUS International Ltd.">
 				</a>
 			</div>
 
@@ -100,7 +101,8 @@
 			{include content}
 
 			<footer class="footer">
-				<p>Vojtěch Lank {date('Y')} @ Karelia-ammattikorkeakoulu</p>
+				<p class="pull-left">Vojtěch Lank {date('Y')} @ Karelia-ammattikorkeakoulu</p>
+				<p class="pull-right"><a n:href="Homepage:about">About Us</a></p>
 			</footer>
 
 		</div>
