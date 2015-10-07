@@ -1,20 +1,19 @@
 
-{block content}
+{extends  '../@panelInfo.latte'}
 
-<div class="panel panel-info">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-			&nbsp;Place order
-		</h3>
+{block title}Place Order{/block}
+
+{block glyphicon}send{/block}
+
+{block panel-title}Place Order{/block}
+
+{block panel-body}
+
+<div class="row">
+	<div class="col-lg-3"></div>
+	<div class="col-lg-6">
+		{control orderForm}
 	</div>
-	<div class="panel-body center">
-		<div class="row">
-			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
-				{control orderForm}
-			</div>
-			<div class="col-lg-3"></div>
-		</div>
-	</div>
+	<div class="col-lg-3"></div>
 </div>
+

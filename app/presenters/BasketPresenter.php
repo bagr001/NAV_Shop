@@ -67,7 +67,7 @@ class BasketPresenter extends BasePresenter {
 		}
 	}
 
-	public function renderDefault()
+	public function renderCart()
 	{
 		if (!$this->ajax || $this->isControlInvalid('basket')) {
 			$this->template->items = $this->basket->getAll(true);

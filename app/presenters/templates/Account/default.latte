@@ -1,20 +1,18 @@
 
-{block content}
+{extends  '../@panelInfo.latte'}
 
-<div class="panel panel-info">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-			&nbsp;User information
-		</h3>
+{block title}User settings{/block}
+
+{block glyphicon}user{/block}
+
+{block panel-title}User information{/block}
+
+{block panel-body}
+
+<div class="row">
+	<div class="col-lg-3"></div>
+	<div class="col-lg-6">
+		{control customerForm}
 	</div>
-	<div class="panel-body center">
-		<div class="row">
-			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
-				{control customerForm}
-			</div>
-			<div class="col-lg-3"></div>
-		</div>
-	</div>
+	<div class="col-lg-3"></div>
 </div>

@@ -1,22 +1,18 @@
 
-{block #title}Sign in / Register{/block}
+{extends  '../@panelInfo.latte'}
 
-{block content}
+{block title}Sign in / Register{/block}
 
-<div class="panel panel-info">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-			&nbsp;Sign in / Register
-		</h3>
+{block glyphicon}lock{/block}
+
+{block panel-title}Sign in / Register{/block}
+
+{block panel-body}
+
+<div class="row">
+	<div class="col-lg-1"></div>
+	<div class="col-lg-10">
+		{control signRegisterForm}
 	</div>
-	<div class="panel-body center">
-		<div class="row">
-			<div class="col-lg-1"></div>
-			<div class="col-lg-10">
-				{control signRegisterForm}
-			</div>
-			<div class="col-lg-1"></div>
-		</div>
-	</div>
+	<div class="col-lg-1"></div>
 </div>
