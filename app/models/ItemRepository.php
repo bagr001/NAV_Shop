@@ -30,4 +30,9 @@ class ItemRepository extends \Nette\Object {
 		return $this->db->query('SELECT * FROM `items`')->fetchAll();
 	}
 
+	public function getSingle($no)
+	{
+		return $this->db->query('SELECT * FROM `items` WHERE `no` = ?', $no)->fetch();
+	}
+
 }

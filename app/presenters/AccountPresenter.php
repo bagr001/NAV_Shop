@@ -54,7 +54,8 @@ class AccountPresenter extends BasePresenter {
 		if ($order && count($order) == 1) {
 			$this->template->order = $order[0];
 		} else {
-			throw new \Nette\Application\BadRequestException('This order number does not exist.');
+//			throw new \Nette\Application\BadRequestException('This order number does not exist.');
+			$this->redirect('Account:orders');
 		}
 	}
 

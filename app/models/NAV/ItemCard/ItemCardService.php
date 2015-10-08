@@ -43,4 +43,20 @@ class ItemCardService extends NAV_Service {
 		return \App\Model\ArrayMerger::mergeByValues($result, ICF::NO, $items, 'no', true);
 	}
 
+	public function Read($No)
+	{
+		$result = parent::Read($No);
+		$item = $this->ir->getSingle($No);
+
+		if ($result) {
+			if ($item) {
+				return \App\Model\ArrayMerger::mergeByValues([$result], ICF::NO, [$item], 'no', true)[0];
+			} else {
+				return $result;
+			}
+		} else {
+			return null;
+		}
+	}
+
 }

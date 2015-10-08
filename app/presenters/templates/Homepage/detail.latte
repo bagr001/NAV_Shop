@@ -1,0 +1,32 @@
+
+{extends  '../@panelInfo.latte'}
+
+{block title}{$item->Description}{/block}
+
+{block glyphicon}zoom-in{/block}
+
+{block panel-title}{$item->Description}{/block}
+
+{block panel-body}
+
+{dump $item}
+
+<div class="row">
+	<div class="col-xs-6">
+		<img width="90%" src="{isset($item->image) ? $basePath . '/images/items/' . $item->image : 'http://placehold.it/240x150'}" title="{$item->Description} (No. {$item->No})">
+	</div>
+	<div class="col-xs-2"><h5><strong>No:</strong></h5></div>
+	<div class="col-xs-4"><h5>{$item->No}</h5></div>
+	<div class="col-xs-2"><h5><strong>Description:</strong></h5></div>
+	<div class="col-xs-4"><h5>{$item->Description}</h5></div>
+	<div class="col-xs-2"><h5><strong>Price:</strong></h5></div>
+	<div class="col-xs-4"><h5>{$item->Unit_Price|number:2:',':' '}</h5></div>
+	<div class="col-xs-5 btn btn-sm btn-success">
+		<a class="ajax" n:href="basket-addOne!, basket-key => $item->No">
+			<h5>BUY NOW</h5>
+		</a>
+	</div>
+</div>
+<div class="row">
+
+</div>

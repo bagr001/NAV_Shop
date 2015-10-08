@@ -33,15 +33,20 @@
 			<div class="header clearfix">
 				<nav>
 					<ul class="nav nav-pills pull-right">
-						<li role="presentation" n:class="$presenter->isLinkCurrent('Homepage:*') ? active">
+						<li role="presentation" n:class="$presenter->isLinkCurrent('Homepage:*') && !$presenter->isLinkCurrent('Homepage:about') ? active">
 							<a n:href="Homepage:" title="Homepage">
 								<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 								&nbsp;Home
 							</a>
 						</li>
-						<!--<li role="presentation" n:class="$presenter->isLinkCurrent('Contact:*') ? active"><a n:href="Contact:">Contact</a></li>-->
+						<li role="presentation" n:class="$presenter->isLinkCurrent('Homepage:about') ? active">
+							<a n:href="Homepage:about" title="About Us">
+								<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+								&nbsp;About Us
+							</a>
+						</li>
 						<li role="presentation" n:class="$presenter->isLinkCurrent('Basket:*') ? active">
-							<a n:href="Basket:cart" title="Shopping cart" n:snippet="shoppingCart">
+							<a n:href="Basket:cart" title="Shopping Cart" n:snippet="shoppingCart">
 								<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 								&nbsp;Cart
 								<span n:if="$shoppingCartItems" class="badge">{$shoppingCartItems}</span>
@@ -57,7 +62,7 @@
 								<ul class="dropdown-menu" role="menu">
 									<li>
 										<a n:href="Account:orders" title="Orders">
-											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+											<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 											&nbsp;Orders
 										</a>
 									</li>
@@ -69,23 +74,21 @@
 									</li>
 									<li class="divider"></li>
 									<li>
-										<a n:href="Sign:out" title="Sign out">
+										<a n:href="Sign:out" title="Sign Out">
 											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-											&nbsp;Sign out
+											&nbsp;Sign Out
 										</a>
 									</li>
 								</ul>
 							</li>
 						{else}
 							<li role="presentation" n:class="$presenter->isLinkCurrent('Sign:in') ? active">
-								<a n:href="Sign:in" title="Sign in" role="presentation" >
+								<a n:href="Sign:in" title="Sign In" role="presentation" >
 									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-									&nbsp;Sign in
+									&nbsp;Sign In
 								</a>
 							</li>
 						{/if}
-
-
 					</ul>
 				</nav>
 				<a n:href="Homepage:" title="CRONUS International">

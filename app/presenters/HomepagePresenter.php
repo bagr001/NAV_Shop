@@ -52,4 +52,14 @@ class HomepagePresenter extends BasePresenter {
 		}
 	}
 
+	public function renderDetail($no)
+	{
+		$item = $this->ics->Read($no);
+		if ($item) {
+			$this->template->item = $item;
+		} else {
+			$this->redirect('Homepage:default');
+		}
+	}
+
 }

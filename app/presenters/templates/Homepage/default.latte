@@ -10,13 +10,13 @@
 				<div class="panel panel-primary col-lg-12">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							<a href="#"><strong>{$item->Description|truncate:30}</strong></a>
+							<a n:href="Homepage:detail, no => $item->No"><strong>{$item->Description|truncate:30}</strong></a>
 							<br />
 							<small class="text-muted">(No. {$item->No})</small>
 						</h3>
 					</div>
 					<div class="panel-body">
-						<a href="#">
+						<a n:href="Homepage:detail, no => $item->No">
 							<img src="{isset($item->image_small) ? $basePath . '/images/items/' . $item->image_small : 'http://placehold.it/240x150'}" title="{$item->Description} (No. {$item->No})">
 						</a>
 						<div class="clearfix visible-lg"></div>
