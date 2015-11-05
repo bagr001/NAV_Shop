@@ -10,14 +10,13 @@ namespace App\Controls\Forms;
 use \Nette\Application\UI\Form;
 use \Nette\Security\User;
 use \App\Model\Basket;
+use \App\Model\NAV\ItemCard\ItemCardService;
 use \App\Model\NAV\Customer\CustomerService;
 use \App\Model\NAV\Customer\CustomerFields as CF;
 use \App\Model\NAV\Countries\CountriesService;
 use \App\Model\NAV\SalesOrder\SalesOrderService;
 use \App\Model\NAV\SalesOrder\SalesOrder;
-use \App\Model\NAV\SalesOrder\SalesOrderFields as SOF;
 use \App\Model\NAV\SalesOrder\SalesOrderLine;
-use \App\Model\NAV\SalesOrder\SalesOrderLineFields as SOLF;
 
 /**
  * Description of OrderFormControl
@@ -38,11 +37,18 @@ class OrderFormControl extends CustomerFormControl {
 	 */
 	private $basket;
 
-	public function __construct(User $user, CustomerService $cus, CountriesService $cs, Basket $basket, SalesOrderService $sos)
+	/**
+	 *
+	 * @var ItemCardService
+	 */
+	private $ics;
+
+	public function __construct(User $user, CustomerService $cus, CountriesService $cs, Basket $basket, SalesOrderService $sos, ItemCardService $ics)
 	{
 		parent::__construct($user, $cus, $cs);
 		$this->sos = $sos;
 		$this->basket = $basket;
+		$this->ics = $ics;
 	}
 
 	public function render()
@@ -61,8 +67,6 @@ class OrderFormControl extends CustomerFormControl {
 		$form->addCheckbox('agree', 'Agree with all terms and conditions.')
 				->addRule(Form::EQUAL, 'You have to agree with our conditions', TRUE);
 
-
-
 		$form['send']->caption = 'Place order';
 		return $form;
 	}
@@ -78,7 +82,7 @@ class OrderFormControl extends CustomerFormControl {
 		$values[CF::NO] = $this->user->id;
 		$this->cus->Update($values);
 
-		$order =  new SalesOrder;
+		$order = new SalesOrder;
 //		$order->Bill_to_Customer_No = $this->user->id;
 		$order->Sell_to_Customer_No = $this->user->id;
 //		$order->VAT_Bus_Posting_Group = 'NATIONAL';
@@ -100,14 +104,17 @@ class OrderFormControl extends CustomerFormControl {
 
 		$result = $this->sos->Create($order);
 
-		if($result){
+		if ($result) {
+			foreach ($this->basket->getAll() as $item) {
+				if (!$this->ics->ratingExists($this->user->id, $item[Basket::KEY_FIELD])) {
+					$this->ics->addEmptyRating($this->user->id, $item[Basket::KEY_FIELD]);
+				}
+			}
 			$this->basket->clear();
 			$this->onSuccess($values);
-
 		} else {
 
 		}
-
 	}
 
 }

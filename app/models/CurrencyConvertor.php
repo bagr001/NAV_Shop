@@ -41,7 +41,6 @@ class CurrencyConvertor extends \Nette\Object {
 	 */
 	public function getConversionRate($from, $to)
 	{
-
 		$data = array(
 			self::CURRENCY_CONVERTOR_PARAM_FROM_CURRENCY => $from,
 			self::CURRENCY_CONVERTOR_PARAM_TO_CURRENCY => $to

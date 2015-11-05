@@ -1,0 +1,32 @@
+
+{extends  '../@panelInfo.latte'}
+
+{block title}Pending Item Ratings{/block}
+
+{block glyphicon}star{/block}
+
+{block panel-title}Pending Item Ratings{/block}
+
+{block panel-body}
+
+{if count($items)}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th class="text-center">No.</th>
+				<th class="text-center">Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr n:foreach="$items as $item">
+				<td>
+					<a n:href="Account:rating, no => $item->No">{$item->No}</a>
+				</td>
+				<td>{$item->Description}</td>
+			</tr>
+		</tbody>
+	</table>
+{else}
+	<h1 class="text-center">Sorry, You have no pending ratings :-(</h1>
+	<h4 class="text-center">You can rate the product only once.</h4>
+{/if}
