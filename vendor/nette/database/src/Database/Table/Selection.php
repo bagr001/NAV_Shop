@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file is part of the Nette Framework (http://nette.org)
- * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
+ * This file is part of the Nette Framework (https://nette.org)
+ * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
 namespace Nette\Database\Table;
@@ -35,7 +35,7 @@ class Selection extends Nette\Object implements \Iterator, IRowContainer, \Array
 	/** @var string table name */
 	protected $name;
 
-	/** @var string primary key field name */
+	/** @var string|array|NULL primary key field name */
 	protected $primary;
 
 	/** @var string|bool primary column sequence name, FALSE for autodetection */
@@ -140,7 +140,7 @@ class Selection extends Nette\Object implements \Iterator, IRowContainer, \Array
 
 	/**
 	 * @param  bool
-	 * @return string|array
+	 * @return string|array|NULL
 	 */
 	public function getPrimary($need = TRUE)
 	{
@@ -704,7 +704,7 @@ class Selection extends Nette\Object implements \Iterator, IRowContainer, \Array
 
 			// move iterator to specific key
 			if (isset($currentKey)) {
-				while (key($this->data) !== $currentKey) {
+				while (key($this->data) !== NULL && key($this->data) !== $currentKey) {
 					next($this->data);
 				}
 			}

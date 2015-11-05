@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file is part of the Nette Framework (http://nette.org)
- * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
+ * This file is part of the Nette Framework (https://nette.org)
+ * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
 namespace Nette\PhpGenerator;
@@ -65,8 +65,12 @@ class ClassType extends Nette\Object
 	 */
 	public static function from($from)
 	{
-		$from = $from instanceof \ReflectionClass ? $from : new \ReflectionClass($from);
-		$class = new static($from->getShortName(), new PhpNamespace($from->getNamespaceName()));
+		$from = new \ReflectionClass($from instanceof \ReflectionClass ? $from->getName() : $from);
+		if (PHP_VERSION_ID >= 70000 && $from->isAnonymous()) {
+			$class = new static('anonymous');
+		} else {
+			$class = new static($from->getShortName(), new PhpNamespace($from->getNamespaceName()));
+		}
 		$class->type = $from->isInterface() ? 'interface' : (PHP_VERSION_ID >= 50400 && $from->isTrait() ? 'trait' : 'class');
 		$class->final = $from->isFinal() && $class->type === 'class';
 		$class->abstract = $from->isAbstract() && $class->type === 'class';
@@ -77,12 +81,12 @@ class ClassType extends Nette\Object
 			$class->implements = array_diff($class->implements, $from->getParentClass()->getInterfaceNames());
 		}
 		foreach ($from->getProperties() as $prop) {
-			if ($prop->getDeclaringClass() == $from) { // intentionally ==
+			if ($prop->getDeclaringClass()->getName() === $from->getName()) {
 				$class->properties[$prop->getName()] = Property::from($prop);
 			}
 		}
 		foreach ($from->getMethods() as $method) {
-			if ($method->getDeclaringClass() == $from) { // intentionally ==
+			if ($method->getDeclaringClass()->getName() === $from->getName()) {
 				$class->methods[$method->getName()] = Method::from($method)->setNamespace($class->namespace);
 			}
 		}
