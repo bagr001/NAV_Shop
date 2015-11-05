@@ -46,7 +46,7 @@ class NAV_SoapClient extends \SoapClient {
 			$file = md5(uniqid()) . '.xml';
 
 			if (($fp = fopen($this->cache_dir . $file, "w")) == false) {
-				throw new Exception('Could not create local WDSL file (' . $this->cache_dir . $file . ')');
+				throw new \Exception('Could not create local WDSL file (' . $this->cache_dir . $file . ')');
 			}
 
 			$ch = curl_init();

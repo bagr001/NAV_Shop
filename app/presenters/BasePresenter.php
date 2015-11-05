@@ -3,7 +3,7 @@
 namespace App\Presenters;
 
 use Nette;
-use \App\Model\Basket;
+use \App\Model\ShoppingCart;
 
 /**
  * Base presenter for all application presenters.
@@ -12,26 +12,26 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 	/**
 	 *
-	 * @var Basket
+	 * @var ShoppingCart
 	 */
-	protected $basket;
+	protected $shoppingCart;
 
-	public function __construct(Basket $basket)
+	public function __construct(ShoppingCart $shoppingCart)
 	{
 		parent::__construct();
-		$this->basket = $basket;
+		$this->shoppingCart = $shoppingCart;
 	}
 
 	public function beforeRender()
 	{
-		$this->template->shoppingCartItems = $this->basket->getItemsCount();
+		$this->template->shoppingCartItems = $this->shoppingCart->getItemsCount();
 	}
 
 	public function afterRender()
 	{
 		if ($this->ajax) {
 			$this->redrawControl('flashMsg');
-			$this->redrawControl('shoppingCart');
+			$this->redrawControl('shoppingCartMenu');
 		}
 	}
 

@@ -57,7 +57,6 @@ services:
 	router: App\RouterFactory::createRouter
 	session: Nette\Http\Session
 	db: @Nette\Database\Context
-	itemRepository: App\Model\ItemRepository
 
 	soapClentCusomer: App\Model\NAV\NAV_SoapClient(%nav_ws_customer_url%, %nav_ws_options%)
 	soapClentItemCard: App\Model\NAV\NAV_SoapClient(%nav_ws_item_card_url%, %nav_ws_options%)
@@ -65,20 +64,20 @@ services:
 	soapClentSalesOrder: App\Model\NAV\NAV_SoapClient(%nav_ws_sales_order_url%, %nav_ws_options%)
 
 	customerService: App\Model\NAV\Customer\CustomerService(@soapClentCusomer, %nav_ws_customer_name%)
-	itemCardService: App\Model\NAV\ItemCard\ItemCardService(@soapClentItemCard, %nav_ws_item_card_name%, @itemRepository)
+	itemCardService: App\Model\NAV\ItemCard\ItemCardService(@soapClentItemCard, %nav_ws_item_card_name%, @db)
 	countriesService: App\Model\NAV\Countries\CountriesService(@soapClentCountries, %nav_ws_countries_name%)
 	salesOrderService: App\Model\NAV\SalesOrder\SalesOrderService(@soapClentSalesOrder, %nav_ws_sales_order_name%)
 #	customerService: App\Model\NAV\NAV_Service(@soapClentCusomer, %nav_ws_customer_name%)
 #	itemCardService: App\Model\NAV\NAV_Service(@soapClentItemCard, %nav_ws_item_card_name%)
 	- App\Model\CurrencyConvertor
 
-	basket: App\Model\Basket(@session::getSection('basket'), @itemCardService)
+	shoppingCart: App\Model\ShoppingCart(@session::getSection('shoppingCart'), @itemCardService)
 
 	# ----- Factories ----- #
 
-	basketControl:
-		implement: App\Controls\IBasketControlFactory
-		class: App\Controls\BasketControl(@basket)
+	shoppingCartControl:
+		implement: App\Controls\IShoppingCartControlFactory
+		class: App\Controls\ShoppingCartControl(@shoppingCart)
 
 	registerFormControl:
 		implement: App\Controls\Forms\IRegisterFormControlFactory
@@ -99,5 +98,9 @@ services:
 	orderFormControl:
 		implement: App\Controls\Forms\IOrderFormControlFactory
 		class: App\Controls\Forms\OrderFormControl
+
+	ratingFormControl:
+		implement: App\Controls\Forms\IRatingFormControlFactory
+		class: App\Controls\Forms\RatingFormControl
 
 	# ----- Presenters ----- #

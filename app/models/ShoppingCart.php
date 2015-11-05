@@ -11,17 +11,17 @@ use \App\Model\NAV\NAV_Filter as NFilter;
 use \App\Model\NAV\ItemCard\ItemCardFields as ICF;
 
 /**
- * Description of Basket
+ * Description of ShoppingCart
  *
  * @author Vojta
  */
-class Basket extends \Nette\Object {
+class ShoppingCart extends \Nette\Object {
 
 	/** Session key item field  */
 	const KEY_FIELD = ICF::NO;
 
 	/** Name of order quantity field  */
-	const ORDER_QUANTITY_FIELD = 'Basket_Quantity';
+	const ORDER_QUANTITY_FIELD = 'ShoppingCart_Quantity';
 
 	/**
 	 *
@@ -79,7 +79,7 @@ class Basket extends \Nette\Object {
 	}
 
 	/**
-	 * Adds item to the basket
+	 * Adds item to the shopping cart
 	 * @param string $key Item key
 	 * @param number $quantity
 	 * @return void
@@ -90,7 +90,7 @@ class Basket extends \Nette\Object {
 	}
 
 	/**
-	 * Updates item quantity
+	 * Updates item quantity in the shopping cart
 	 * @param string $key Item key
 	 * @param number $quantity
 	 * @return void
@@ -101,7 +101,7 @@ class Basket extends \Nette\Object {
 	}
 
 	/**
-	 * Removes item or certain quantity from the basket
+	 * Removes item or certain quantity from the shopping cart
 	 * @param string $key Item key
 	 * @param number $quantity
 	 * @return void
@@ -117,7 +117,7 @@ class Basket extends \Nette\Object {
 	}
 
 	/**
-	 * Removes all items from the basket
+	 * Removes all items from the shopping cart
 	 * @return void
 	 */
 	public function clear()

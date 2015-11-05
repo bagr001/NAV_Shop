@@ -2,17 +2,17 @@
 
 namespace App\Presenters;
 
-use \App\Model\Basket;
-use \App\Controls\IBasketControlFactory;
+use \App\Model\ShoppingCart;
+use \App\Controls\IShoppingCartControlFactory;
 use \App\Model\NAV\ItemCard\ItemCardService;
 
 class HomepagePresenter extends BasePresenter {
 
 	/**
 	 *
-	 * @var IBasketControlFactory
+	 * @var IShoppingCartControlFactory
 	 */
-	private $basketControlFactory;
+	private $shoppingCartControlFactory;
 
 	/**
 	 *
@@ -20,27 +20,27 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	private $ics;
 
-	public function __construct(Basket $basket, IBasketControlFactory $basketControlFactory, ItemCardService $ics)
+	public function __construct(ShoppingCart $shoppingCart, IShoppingCartControlFactory $shoppingCartControlFactory, ItemCardService $ics)
 	{
-		parent::__construct($basket);
+		parent::__construct($shoppingCart);
 		$this->ics = $ics;
-		$this->basketControlFactory = $basketControlFactory;
+		$this->shoppingCartControlFactory = $shoppingCartControlFactory;
 	}
 
 	/**
 	 *
-	 * @return \App\Controls\BasketControl
+	 * @return \App\Controls\ShoppingCartControl
 	 */
-	protected function createComponentBasket()
+	protected function createComponentShoppingCart()
 	{
-		$c = $this->basketControlFactory->create();
+		$c = $this->shoppingCartControlFactory->create();
 //		$c->onAdd[] = function($key){
 //			$this->flashMessage('Added 1x ' . $key);
-//			$this->redrawControl('basket');
+//			$this->redrawControl('shoppingCart');
 //		};
 //		$c->onRemove[] = function($key){
 //			$this->flashMessage('Removed 1x ' . $key);
-//			$this->redrawControl('basket');
+//			$this->redrawControl('shoppingCart');
 //		};
 		return $c;
 	}

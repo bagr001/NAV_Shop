@@ -9,7 +9,7 @@
 
 {block panel-body}
 
-{snippet basket}
+{snippet shoppingCart}
 	{if isset($items, $rateEurUsd)}
 		{if !count($items)}
 			<h1 class="text-center">Unfortunately, your shopping cart is empty :-(</h1>
@@ -33,12 +33,12 @@
 						<td>{$item->No}</td>
 						<td>{$item->Description}</td>
 						<td class="text-right">€&nbsp;{$item->Unit_Price|number:2:',':' '}</td>
-						<td class="text-right">{control basket:removeOne, $item->No}</td>
-						<td class="text-right">{$item->Basket_Quantity}</td>
-						<td class="text-right">{control basket:addOne, $item->No}</td>
-						<td class="text-right">€&nbsp;{$item->Basket_Quantity * $item->Unit_Price|number:2:',':' '}</td>
-						<td class="text-right">{control basket:removeAll, $item->No}</td>
-						{?$totalPrice += $item->Basket_Quantity * $item->Unit_Price}
+						<td class="text-right">{control shoppingCart:removeOne, $item->No}</td>
+						<td class="text-right">{$item->ShoppingCart_Quantity}</td>
+						<td class="text-right">{control shoppingCart:addOne, $item->No}</td>
+						<td class="text-right">€&nbsp;{$item->ShoppingCart_Quantity * $item->Unit_Price|number:2:',':' '}</td>
+						<td class="text-right">{control shoppingCart:removeAll, $item->No}</td>
+						{?$totalPrice += $item->ShoppingCart_Quantity * $item->Unit_Price}
 					</tr>
 				</tbody>
 			</table>
@@ -64,7 +64,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								{if $user->loggedIn}
-									<a n:href="Basket:order" class="pull-right btn btn-primary btn-block btn-lg">Order Now</a>
+									<a n:href="ShoppingCart:order" class="pull-right btn btn-primary btn-block btn-lg">Order Now</a>
 								{else}
 									<button type="button" class="pull-right btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#signRegisterModal">Order Now</button>
 								{/if}

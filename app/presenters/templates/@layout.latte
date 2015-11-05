@@ -21,11 +21,10 @@
 	<body>
 
 		{block scripts}
-		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="{$basePath}/js/jquery-1.11.2.min.js"></script>
 		<script src="{$basePath}/js/bootstrap.js"></script>
-		<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+		<script src="{$basePath}/js/netteForms.min.js"></script>
 		<script src="{$basePath}/js/nette.ajax.js"></script>
-		<!--<script src="{$basePath}/js/live-form-validation.js"></script>-->
 		<script src="{$basePath}/js/main.js"></script>
 		{/block}
 
@@ -45,8 +44,8 @@
 								&nbsp;About Us
 							</a>
 						</li>
-						<li role="presentation" n:class="$presenter->isLinkCurrent('Basket:*') ? active">
-							<a n:href="Basket:cart" title="Shopping Cart" n:snippet="shoppingCart">
+						<li role="presentation" n:class="$presenter->isLinkCurrent('ShoppingCart:*') ? active">
+							<a n:href="ShoppingCart:cart" title="Shopping Cart" n:snippet="shoppingCartMenu">
 								<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 								&nbsp;Cart
 								<span n:if="$shoppingCartItems" class="badge">{$shoppingCartItems}</span>
@@ -64,6 +63,12 @@
 										<a n:href="Account:orders" title="Orders">
 											<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 											&nbsp;Orders
+										</a>
+									</li>
+									<li>
+										<a n:href="Account:ratings" title="Ratings">
+											<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+											&nbsp;Ratings
 										</a>
 									</li>
 									<li>
@@ -92,7 +97,6 @@
 					</ul>
 				</nav>
 				<a n:href="Homepage:" title="CRONUS International">
-					<!--<h3 class="text-muted">CRONUS International</h3>-->
 					<img height="40" src="{$basePath}/images/cronus.png" title="CRONUS International Ltd.">
 				</a>
 			</div>

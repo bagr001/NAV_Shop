@@ -2,7 +2,7 @@
 
 namespace App\Presenters;
 
-use \App\Model\Basket;
+use \App\Model\ShoppingCart;
 use \App\Controls\ISignRegisterControlFactory;
 
 class SignPresenter extends BasePresenter {
@@ -13,9 +13,9 @@ class SignPresenter extends BasePresenter {
 	 */
 	private $srff;
 
-	public function __construct(Basket $basket, ISignRegisterControlFactory $srff)
+	public function __construct(ShoppingCart $shoppingCart, ISignRegisterControlFactory $srff)
 	{
-		parent::__construct($basket);
+		parent::__construct($shoppingCart);
 		$this->srff = $srff;
 	}
 

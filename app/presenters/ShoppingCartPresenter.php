@@ -7,24 +7,24 @@
 
 namespace App\Presenters;
 
-use \App\Model\Basket;
+use \App\Model\ShoppingCart;
 use \App\Model\CurrencyConvertor;
-use \App\Controls\IBasketControlFactory;
+use \App\Controls\IShoppingCartControlFactory;
 use \App\Controls\ISignRegisterControlFactory;
 use \App\Controls\Forms\IOrderFormControlFactory;
 
 /**
- * Description of BasketPresenter
+ * Description of ShoppingCartPresenter
  *
  * @author Vojta
  */
-class BasketPresenter extends BasePresenter {
+class ShoppingCartPresenter extends BasePresenter {
 
 	/**
 	 *
-	 * @var IBasketControlFactory
+	 * @var IShoppingCartControlFactory
 	 */
-	private $basketControlFactory;
+	private $shoppingCartControlFactory;
 
 	/**
 	 *
@@ -44,10 +44,10 @@ class BasketPresenter extends BasePresenter {
 	 */
 	private $off;
 
-	public function __construct(Basket $basket, IBasketControlFactory $basketControlFactory, CurrencyConvertor $currencyConvertor, ISignRegisterControlFactory $srff, IOrderFormControlFactory $off)
+	public function __construct(ShoppingCart $shoppingCart, IShoppingCartControlFactory $shoppingCartControlFactory, CurrencyConvertor $currencyConvertor, ISignRegisterControlFactory $srff, IOrderFormControlFactory $off)
 	{
-		parent::__construct($basket);
-		$this->basketControlFactory = $basketControlFactory;
+		parent::__construct($shoppingCart);
+		$this->shoppingCartControlFactory = $shoppingCartControlFactory;
 		$this->currencyConvertor = $currencyConvertor;
 		$this->srff = $srff;
 		$this->off = $off;
@@ -55,7 +55,7 @@ class BasketPresenter extends BasePresenter {
 
 	public function actionOrder()
 	{
-		if(!$this->user->loggedIn || !$this->basket->getItemsCount()){
+		if(!$this->user->loggedIn || !$this->shoppingCart->getItemsCount()){
 			$this->redirect('Homepage:');
 		}
 	}
@@ -69,22 +69,22 @@ class BasketPresenter extends BasePresenter {
 
 	public function renderCart()
 	{
-		if (!$this->ajax || $this->isControlInvalid('basket')) {
-			$this->template->items = $this->basket->getAll(true);
+		if (!$this->ajax || $this->isControlInvalid('shoppingCart')) {
+			$this->template->items = $this->shoppingCart->getAll(true);
 			$this->template->rateEurUsd = $this->currencyConvertor->getConversionRate(CurrencyConvertor::CURRENCY_CODE_EUR, CurrencyConvertor::CURRENCY_CODE_USD);
 		}
 	}
 
-	protected function createComponentBasket()
+	protected function createComponentShoppingCart()
 	{
-		$c = $this->basketControlFactory->create();
+		$c = $this->shoppingCartControlFactory->create();
 		$c->onAdd[] = function($key) {
 //			$this->flashMessage('Added 1x ' . $key);
-			$this->redrawControl('basket');
+			$this->redrawControl('shoppingCart');
 		};
 		$c->onRemove[] = function($key) {
 //			$this->flashMessage('Removed 1x ' . $key);
-			$this->redrawControl('basket');
+			$this->redrawControl('shoppingCart');
 		};
 		return $c;
 	}
@@ -93,7 +93,7 @@ class BasketPresenter extends BasePresenter {
 	{
 		$c = $this->srff->create();
 		$c->onSuccess[] = function () {
-			$this->redirect('Basket:order');
+			$this->redirect('ShoppingCart:order');
 		};
 		return $c;
 	}
@@ -102,7 +102,7 @@ class BasketPresenter extends BasePresenter {
 	{
 		$c = $this->off->create();
 		$c->onSuccess[] = function () {
-			$this->redirect('Basket:success');
+			$this->redirect('ShoppingCart:success');
 		};
 		return $c;
 	}

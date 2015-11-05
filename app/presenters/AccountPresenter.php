@@ -2,11 +2,14 @@
 
 namespace App\Presenters;
 
-use \App\Model\Basket;
+use \App\Model\ShoppingCart;
+use \App\Model\NAV\ItemCard\ItemCardFields as ICF;
 use \App\Model\NAV\NAV_Filter as NFilter;
+use \App\Model\NAV\ItemCard\ItemCardService;
 use \App\Model\NAV\SalesOrder\SalesOrderFields AS SOF;
 use \App\Model\NAV\SalesOrder\SalesOrderService;
 use \App\Controls\Forms\ICustomerFormControlFactory;
+use \App\Controls\Forms\IRatingFormControlFactory;
 
 class AccountPresenter extends BasePresenter {
 
@@ -22,11 +25,31 @@ class AccountPresenter extends BasePresenter {
 	 */
 	private $cff;
 
-	public function __construct(Basket $basket, SalesOrderService $sos, ICustomerFormControlFactory $cff)
+	/**
+	 *
+	 * @var IRatingFormControlFactory
+	 */
+	private $rff;
+
+	/**
+	 *
+	 * @var ItemCardService
+	 */
+	private $ics;
+
+	/**
+	 *
+	 * @var string
+	 */
+	private $item_no;
+
+	public function __construct(ShoppingCart $shoppingCart, SalesOrderService $sos, ICustomerFormControlFactory $cff, IRatingFormControlFactory $rff, ItemCardService $ics)
 	{
-		parent::__construct($basket);
+		parent::__construct($shoppingCart);
 		$this->sos = $sos;
 		$this->cff = $cff;
+		$this->rff = $rff;
+		$this->ics = $ics;
 	}
 
 	protected function startup()
@@ -54,8 +77,30 @@ class AccountPresenter extends BasePresenter {
 		if ($order && count($order) == 1) {
 			$this->template->order = $order[0];
 		} else {
-//			throw new \Nette\Application\BadRequestException('This order number does not exist.');
 			$this->redirect('Account:orders');
+		}
+	}
+
+	public function actionRatings()
+	{
+		$result = $this->ics->getEmptyRatings($this->user->id);
+		if ($result) {
+			$this->template->items = $this->ics->ReadMultiple(0, new NFilter(ICF::NO, array_map(function($row) {
+						return $row->items_no;
+					}, $result)));
+		} else {
+			$this->template->items = [];
+		}
+	}
+
+	public function actionRating($no)
+	{
+		$item = $this->ics->Read($no);
+		if ($item && $this->ics->isRatingOpen($this->user->id, $no)) {
+			$this->item_no = $no;
+			$this->template->item = $item;
+		} else {
+			$this->redirect('Account:ratings');
 		}
 	}
 
@@ -64,6 +109,15 @@ class AccountPresenter extends BasePresenter {
 		$c = $this->cff->create();
 		$c->onSuccess[] = function () {
 			$this->redirect('this');
+		};
+		return $c;
+	}
+
+	protected function createComponentRatingForm()
+	{
+		$c = $this->rff->create($this->item_no);
+		$c->onSuccess[] = function () {
+			$this->redirect('Account:ratings');
 		};
 		return $c;
 	}

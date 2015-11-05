@@ -11,6 +11,7 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							<a n:href="Homepage:detail, no => $item->No"><strong>{$item->Description|truncate:30}</strong></a>
+							<span n:ifset="$item->rating" class="pull-right">{$item->rating|number:1}</span><span n:ifset="$item->rating" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
 							<br />
 							<small class="text-muted">(No. {$item->No})</small>
 						</h3>
@@ -22,7 +23,7 @@
 						<div class="clearfix visible-lg"></div>
 						<h4>
 							<strong>€&nbsp;{$item->Unit_Price|number:2:',':' '}</strong>
-							<span class="pull-right">{control basket:buy, $item->No}</span>
+							<span class="pull-right">{control shoppingCart:buy, $item->No}</span>
 						</h4>
 					</div>
 				</div>
